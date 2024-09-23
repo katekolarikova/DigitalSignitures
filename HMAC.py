@@ -65,6 +65,8 @@ class HMAC:
 
     def HMACComputation(self, message: str, key:int, hash_function:str) ->str :
 
+        message = message.replace(" ", "")
+        print(f"message: {message}")
         # define block size of hash function
         block_size = sha256().block_size # in bytes
         key_length = len(str(key)) # in bytes, 1 digit = 1 byte
