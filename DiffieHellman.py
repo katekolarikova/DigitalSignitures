@@ -43,15 +43,22 @@ class DiffieHellman:
                 generator = g
                 break
 
-        return generator
+        # primitive root modulo p
+        return generator % self.prime
 
     def keyExchange(self, alice: CommunicationParty, bob: CommunicationParty) -> tuple:
+
+        #initial setup, generating private and public keys
         alice.setPrivateKey(1, 50)
         bob.setPrivateKey(51, 99)
-        alice_first_key = alice.computeSharedKey(self.prime, self.generator)
-        bob_first_key = bob.computeSharedKey(self.prime, self.generator)
-        alice.shared_secret_key = alice.computeSharedKey(self.prime, bob_first_key)
-        alice.current_chain_key = alice.shared_secret_key
-        bob.shared_secret_key = bob.computeSharedKey(self.prime, alice_first_key)
-        bob.current_chain_key = bob.shared_secret_key
+        alice.public_key = alice.computeSharedKey(self.prime, self.generator)
+        bob.public_key = bob.computeSharedKey(self.prime, self.generator)
+
+        #exchange public keys
+        bob.friends_key = alice.public_key
+        alice.friends_key = bob.public_key
+
+        #generate shared secret key
+        alice.shared_secret_key = alice.computeSharedKey(self.prime)
+        bob.shared_secret_key = bob.computeSharedKey(self.prime)
         print("Successfully exchanged keys")

@@ -55,7 +55,19 @@ class CommunicationSchemas:
         else:
             print("HMAC is incorrect #2")
 
+    def initDiffieHellmanDoubleRatchet(self, alice: CommunicationParty, bob: CommunicationParty):
+        self.generateKeyPair(alice, 1, 50)
+        self.generateKeyPair(bob, 51, 99)
+        self.publicKeyExchange(alice, bob)
+        self.generateSharedSecretKey(alice, bob)
+
+        # init root key from shared secret key
+        alice.resetKeyChain()
+        bob.resetKeyChain()
+
     def SingleRatchet(self, alice: CommunicationParty, bob: CommunicationParty):
+
+        self.initDiffieHellmanDoubleRatchet(alice, bob)
 
         encrypted_message = alice.sendMessage('Hello this is a secret message')
         decrypted_message = bob.receiveMessage( encrypted_message)
@@ -73,8 +85,8 @@ class CommunicationSchemas:
         decrypted_message = bob.receiveMessage( encrypted_message)
         print(f"decrypted message: {decrypted_message}")
 
-    def generateKeyPair(self, party: CommunicationParty):
-        party.setPrivateKey(1, 50)
+    def generateKeyPair(self, party: CommunicationParty, min: int = 1, max: int = 50):
+        party.setPrivateKey(min, max)
         party.public_key = party.computeSharedKey(self.dh.prime, self.dh.generator)
 
     def publicKeyExchange(self, alice: CommunicationParty, bob: CommunicationParty):
@@ -83,16 +95,9 @@ class CommunicationSchemas:
 
     def generateSharedSecretKey(self, alice: CommunicationParty, bob: CommunicationParty):
         alice.shared_secret_key = alice.computeSharedKey(self.dh.prime, alice.friends_key)
+        alice.root_key = alice.shared_secret_key #set initial root key
         bob.shared_secret_key = bob.computeSharedKey(self.dh.prime, bob.friends_key)
-
-
-    def initDiffieHellmanDoubleRatchet(self, alice: CommunicationParty, bob: CommunicationParty):
-        self.generateKeyPair(alice)
-        self.generateKeyPair(bob)
-        self.publicKeyExchange(alice, bob)
-        self.generateSharedSecretKey(alice, bob)
-        alice.resetKeyChain()
-        bob.resetKeyChain()
+        bob.root_key = bob.shared_secret_key #set initial root key
 
     def DoubleRatchetHardcodeDemo(self, alice: CommunicationParty, bob: CommunicationParty):
         self.initDiffieHellmanDoubleRatchet(alice, bob)
@@ -127,12 +132,17 @@ class CommunicationSchemas:
         self.initDiffieHellmanDoubleRatchet(alice, bob)
 
         counter = 0
+        period = 4
 
         while True:
             alice_msg = input("Alice msg: ")
 
             encrypted_message = alice.sendMessage(alice_msg)
             counter += 1
+            if counter % period == 0:
+                self.initDiffieHellmanDoubleRatchet(alice, bob)
+                print('Keys were reset')
+
             decrypted_message = bob.receiveMessage(encrypted_message)
             print(f"Bob received message: {decrypted_message}")
 
@@ -144,7 +154,7 @@ class CommunicationSchemas:
             decrypted_message = alice.receiveMessage(encrypted_message)
             print(f"Alice received message: {decrypted_message}")
 
-            if counter % 4 == 0:
+            if counter % period == 0:
                 self.initDiffieHellmanDoubleRatchet(alice, bob)
                 print('Keys were reset')
 

@@ -13,7 +13,7 @@ dh.keyExchange(alice, bob)
 # task 2
 print("-----------------TASK 2-----------------")
 hmac = HMAC()
-message_hmac = hmac.HMACComputation( 'example of the message',alice.shared_secret_key, "sha256")
+message_hmac = hmac.HMACComputation( 'example of the message',alice.shared_secret_key, "xor")
 print(f"message hmac: {message_hmac}")
 
 # task 3
