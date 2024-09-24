@@ -15,7 +15,8 @@ def getFirstNumber(phone_number:list[int]):
     return max_number_index
 
 def createKey(phone:str):
-
+    if type(phone) != str:
+        phone = str(phone)
     key = ['*' for letter in phone]
     phone_number = [int(i) for i in phone]
     counter = 1

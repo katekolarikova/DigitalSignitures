@@ -50,5 +50,8 @@ class DiffieHellman:
         bob.setPrivateKey(51, 99)
         alice_first_key = alice.computeSharedKey(self.prime, self.generator)
         bob_first_key = bob.computeSharedKey(self.prime, self.generator)
-        alice.shared_key = alice.computeSharedKey(self.prime, bob_first_key)
-        bob.shared_key = bob.computeSharedKey(self.prime, alice_first_key)
+        alice.shared_secret_key = alice.computeSharedKey(self.prime, bob_first_key)
+        alice.current_chain_key = alice.shared_secret_key
+        bob.shared_secret_key = bob.computeSharedKey(self.prime, alice_first_key)
+        bob.current_chain_key = bob.shared_secret_key
+        print("Successfully exchanged keys")

@@ -1,7 +1,9 @@
 from KeyGenerator import createKey
 
 def encryptColumnTransposition(text:str, desired_order:str):
-    key_len = len(str(desired_order))
+    if type(desired_order) != str:
+        desired_order = str(desired_order)
+    key_len = len(desired_order)
     desired_order = [int(i) for i in desired_order]
     num_of_missing_chars = key_len -( len(text) % key_len)
 
@@ -37,7 +39,9 @@ def encryptColumnTransposition(text:str, desired_order:str):
 
 
 def decryptColumnTransposition(text,  desired_order):
-    row_length = len(str(desired_order))
+    if type(desired_order) != str:
+        desired_order = str(desired_order)
+    row_length = len(desired_order)
     number_of_rows = len(text) // row_length
     columns = []
 
