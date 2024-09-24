@@ -1,5 +1,3 @@
-from KeyGenerator import createKey
-
 def encryptColumnTransposition(text:str, desired_order:str):
     if type(desired_order) != str:
         desired_order = str(desired_order)

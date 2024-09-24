@@ -1,5 +1,5 @@
 import random
-from sympy.ntheory.factor_ import smoothness_p, factorint
+from sympy.ntheory.factor_ import  factorint
 from CommunicationParty import CommunicationParty
 
 

@@ -1,7 +1,7 @@
 from random import randint
 
 from KeyRatcheting import KeyRatcheting
-from Cyphers import ColumnTranspositionSubstitutionEncryption, ColumnTranspositionSubstitutionDecryption
+from Ciphers import ColumnTranspositionSubstitutionEncryption, ColumnTranspositionSubstitutionDecryption
 
 class CommunicationParty:
     private_key = None

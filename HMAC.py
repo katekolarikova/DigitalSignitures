@@ -1,12 +1,7 @@
-import math
 from hashlib import sha256
 import sys
 import binascii
 import re
-import unicodedata
-
-
-
 
 # https://medium.com/@short_sparrow/how-hmac-works-step-by-step-explanation-with-examples-f4aff5efb40e
 class HMAC:

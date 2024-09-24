@@ -1,5 +1,5 @@
 from HMAC import HMAC
-from Cyphers import ColumnTranspositionSubstitutionEncryption, ColumnTranspositionSubstitutionDecryption
+from Ciphers import ColumnTranspositionSubstitutionEncryption, ColumnTranspositionSubstitutionDecryption
 from CommunicationParty import CommunicationParty
 from DiffieHellman import DiffieHellman
 
