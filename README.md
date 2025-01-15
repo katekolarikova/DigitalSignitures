@@ -1,4 +1,4 @@
-This repository includes files for second assignmnet of the course Security adn Vulnerability in Networks.
+## Digital Signatures
 The main objective is to implement protocols for secure communication between two parties.
 The protocols implemented are:
 1. Diffie-Hellman Key Exchange
